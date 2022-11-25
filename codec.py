@@ -58,9 +58,9 @@ def my_idct_2d(blocks):
 
 def get_score(cur, ref, r=1):
 
-    return np.sum((cur - ref)**2)
+    # return np.sum((cur - ref)**2)
 
-    return np.sum((abs(cur - ref) < r).flat)
+    return np.sum((np.abs(cur - ref) < r))
 
 
 def motion_estimation(cur, ref, r, x_size=16, y_size=16, dx=16, dy=16, dx1=4, dy1=4):
@@ -259,9 +259,6 @@ def run_length_encode(arr):
 def get_bits(frame, vecs):
     b1, b2 = 0, 0
 
-    size = frame.size
-    ndc = size / 64
-
     x, y = frame.shape[0], frame.shape[1]
 
     zigzag = [#(0, 0), 
@@ -290,7 +287,7 @@ def get_bits(frame, vecs):
     b2 = get_H(np.array(flatten(vecs))) * len(flatten(vecs))
 
     # print(vecs[0])
-    # print(b1, b2) 
+    # print(b1, b2)
 
     return b1 + b2
 
@@ -307,6 +304,7 @@ def proccess_frame(cur, ref, q_t, r=1, plot_frame=False, jpeg=False):
     else:
         diff_frame = cur
         re_frame = cur
+        motion_vec = []
 
     my_dct = dctn
     my_idct = idctn
@@ -316,12 +314,11 @@ def proccess_frame(cur, ref, q_t, r=1, plot_frame=False, jpeg=False):
     for i in range(0, re_frame.shape[0], 8):
         for j in range(0, re_frame.shape[1], 8):
             tmp[i:i+8, j:j+8] = my_dct(re_frame[i:i+8, j:j+8], norm='ortho')#, type=4)
+    # a = 32
+    # print(tmp[a:a+8, a:a+8])
     re_frame = quantization(tmp, q_t)
 
-    if not jpeg:
-        entropy = get_bits(re_frame, motion_vec)
-    else:
-        entropy = get_bits(re_frame, [])
+    entropy = get_bits(re_frame, motion_vec)
 
     # print(re_frame)
     # plt.imshow(re_frame)
