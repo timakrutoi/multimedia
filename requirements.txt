@@ -1,0 +1,6 @@
+py==3.9.2
+numpy==1.22.4
+scipy==1.9.1
+av==9.2.0
+matplotlib==3.5.3
+tqdm==4.64.0
