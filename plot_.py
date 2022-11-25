@@ -28,7 +28,7 @@ if __name__ == '__main__':
     from argparse import ArgumentParser
     p = ArgumentParser()
 
-    p.add_argument('--file-name', default='', help='File name to plot')
+    p.add_argument('--file-name', nargs='+', default=[], help='File name to plot')
     p.add_argument('-f', nargs='+', type=int, default=[-1], help='Index of film to plot')
     p.add_argument('-j', action='store_true', default=False, help='Also plot jpeg')
 
@@ -39,23 +39,24 @@ if __name__ == '__main__':
     axs[1].set_title('PSNR')
     axs[2].set_title('Compression factor to PSNR')
 
-    if not a.file_name:
-        prefix = 'graph/'
-        names = ['vid1', 'vid2', 'vid3']
+    if len(a.file_name) == 0:
+        prefix = '.'
+        names = ['vid0', 'vid1', 'vid2']
         files = []
 
         for i, j in enumerate(names):
             if a.f[0] == -1 or i in a.f:
-                files.append(j + '_data')
+                files.append(j)
                 if a.j:
-                    files.append(j + '_jpeg')
+                    files.append(j + 'j')
         # print(files)
 
 
         for j in files:
             plot(sep.join([prefix, j]), axs, a.j)
     else:
-        plot(a.file_name, axs, a.j)
+        for name in a.file_name:
+            plot(name, axs, a.j)
 
     axs[0].legend()
     axs[1].legend()
