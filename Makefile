@@ -1,7 +1,7 @@
 FILM := $(shell seq 0 2)
 NUMBERS := $(shell seq 0 8)
 LIM := 10
-R := 500
+R := 0
 
 # non-jpegs
 FILMS := $(addprefix film,${FILM})
