@@ -28,9 +28,9 @@ if __name__ == '__main__':
     from argparse import ArgumentParser
     p = ArgumentParser()
 
-    p.add_argument('--file-name', default='')
-    p.add_argument('-f', nargs='+', type=int, default=[-1])
-    p.add_argument('-j', action='store_true', default=False)
+    p.add_argument('--file-name', default='', help='File name to plot')
+    p.add_argument('-f', nargs='+', type=int, default=[-1], help='Index of film to plot')
+    p.add_argument('-j', action='store_true', default=False, help='Also plot jpeg')
 
     a = p.parse_args()
 
@@ -61,4 +61,3 @@ if __name__ == '__main__':
     axs[1].legend()
     axs[2].legend()
     plt.show()
-    # print(data)
