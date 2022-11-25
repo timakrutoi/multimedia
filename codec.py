@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 #encode=utf-8
-from scipy.fftpack import dct, idct
 from scipy.fft import dctn, idctn
 import numpy as np
 
